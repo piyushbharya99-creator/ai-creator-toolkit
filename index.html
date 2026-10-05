@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Creator Toolkit</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#080812;
+  color:#fff;
+  min-height:100vh;
+}
+header{
+  padding:20px 7%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid #25253a;
+  background:#0b0b16;
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+.logo{
+  font-size:22px;
+  font-weight:800;
+}
+.logo span{color:#8b5cf6}
+nav a{
+  color:#aaa;
+  text-decoration:none;
+  margin-left:20px;
+}
+.hero{
+  text-align:center;
+  padding:75px 20px 55px;
+}
+.badge{
+  display:inline-block;
+  background:#171329;
+  color:#a78bfa;
+  border:1px solid #392d68;
+  padding:8px 15px;
+  border-radius:30px;
+  margin-bottom:20px;
+}
+h1{
+  font-size:clamp(38px,7vw,70px);
+  line-height:1.05;
+  margin-bottom:20px;
+}
+.gradient{
+  background:linear-gradient(90deg,#8b5cf6,#22d3ee);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+.hero p{
+  color:#aaa;
+  max-width:650px;
+  margin:auto;
+  font-size:18px;
+  line-height:1.6;
+}
+.search{
+  max-width:650px;
+  margin:30px auto;
+  display:flex;
+  gap:10px;
+}
+.search input{
+  flex:1;
+  padding:16px;
+  border-radius:12px;
+  border:1px solid #303047;
+  background:#11111e;
+  color:white;
+  font-size:16px;
+}
+.container{
+  width:86%;
+  max-width:1200px;
+  margin:auto;
+}
+.categories{
+  display:flex;
+  gap:10px;
+  overflow:auto;
+  padding:10px 0 25px;
+}
+.categories button{
+  white-space:nowrap;
+  padding:10px 17px;
+  border-radius:30px;
+  border:1px solid #303047;
+  background:#11111e;
+  color:#ccc;
+  cursor:pointer;
+}
+.categories button:hover{
+  background:#8b5cf6;
+  color:white;
+}
+.tools{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:20px;
+  padding-bottom:60px;
+}
+.card{
+  background:#11111e;
+  border:1px solid #25253a;
+  border-radius:18px;
+  padding:25px;
+  transition:.25s;
+}
+.card:hover{
+  transform:translateY(-5px);
+  border-color:#7650d9;
+}
+.icon{
+  width:50px;
+  height:50px;
+  border-radius:14px;
+  background:#21183d;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:25px;
+  margin-bottom:18px;
+}
+.card h3{margin-bottom:10px}
+.card p{
+  color:#999;
+  line-height:1.5;
+  margin-bottom:20px;
+}
+.card button{
+  width:100%;
+  padding:12px;
+  border:0;
+  border-radius:10px;
+  background:#7c3aed;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+}
+.card button:hover{background:#8b5cf6}
+
+.generator{
+  display:none;
+  background:#11111e;
+  border:1px solid #302b4b;
+  border-radius:20px;
+  padding:25px;
+  margin-bottom:50px;
+}
+.generator h2{margin-bottom:15px}
+.generator textarea{
+  width:100%;
+  min-height:130px;
+  background:#080812;
+  color:white;
+  border:1px solid #33334a;
+  border-radius:12px;
+  padding:15px;
+  font-size:15px;
+  margin:10px 0;
+}
+.generator .generate{
+  padding:13px 20px;
+  border:0;
+  border-radius:10px;
+  background:#7c3aed;
+  color:#fff;
+  font-weight:bold;
+}
+.output{
+  margin-top:20px;
+  padding:18px;
+  border-radius:12px;
+  background:#080812;
+  border:1px solid #292941;
+  color:#ddd;
+  white-space:pre-wrap;
+  line-height:1.6;
+  min-height:70px;
+}
+footer{
+  text-align:center;
+  padding:35px 20px;
+  border-top:1px solid #25253a;
+  color:#777;
+}
+@media(max-width:600px){
+  header{padding:17px 5%}
+  nav{display:none}
+  .hero{padding-top:55px}
+  .container{width:92%}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">⚡ AI <span>Creator Toolkit</span></div>
+  <nav>
+    <a href="#tools">Tools</a>
+    <a href="#generator">Generator</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="badge">✨ Free Creator Tools</div>
+
+  <h1>Create More.<br>
+    <span class="gradient">Grow Faster.</span>
+  </h1>
+
+  <p>
+    Powerful AI-inspired tools for YouTubers, Instagram creators,
+    freelancers and digital creators.
+  </p>
+
+  <div class="search">
+    <input id="searchInput" type="text"
+      placeholder="Search creator tools...">
+  </div>
+</section>
+
+<main class="container">
+
+  <div class="categories">
+    <button onclick="filterTools('all')">All</button>
+    <button onclick="filterTools('youtube')">YouTube</button>
+    <button onclick="filterTools('instagram')">Instagram</button>
+    <button onclick="filterTools('writing')">Writing</button>
+    <button onclick="filterTools('ideas')">Ideas</button>
+  </div>
+
+  <section id="tools" class="tools">
+
+    <div class="card" data-category="youtube" data-name="youtube title generator">
+      <div class="icon">🎬</div>
+      <h3>YouTube Title Generator</h3>
+      <p>Create catchy YouTube titles for your next video.</p>
+      <button onclick="openGenerator('title')">Open Tool</button>
+    </div>
+
+    <div class="card" data-category="youtube" data-name="youtube script generator">
+      <div class="icon">✍️</div>
+      <h3>Script Generator</h3>
+      <p>Generate a ready-to-use video script structure.</p>
+      <button onclick="openGenerator('script')">Open Tool</button>
+    </div>
+
+    <div class="card" data-category="instagram" data-name="instagram caption generator">
+      <div class="icon">📱</div>
+      <h3>Instagram Caption</h3>
+      <p>Create engaging captions for your social posts.</p>
+      <button onclick="openGenerator('caption')">Open Tool</button>
+    </div>
+
+    <div class="card" data-category="ideas" data-name="content ideas generator">
+      <div class="icon">💡</div>
+      <h3>Content Ideas</h3>
+      <p>Get content ideas for YouTube, Instagram and more.</p>
+      <button onclick="openGenerator('ideas')">Open Tool</button>
+    </div>
+
+    <div class="card" data-category="writing" data-name="thumbnail prompt generator">
+      <div class="icon">🖼️</div>
+      <h3>Thumbnail Prompt</h3>
+      <p>Create prompts for eye-catching AI thumbnails.</p>
+      <button onclick="openGenerator('thumbnail')">Open Tool</button>
+    </div>
+
+    <div class="card" data-category="writing" data-name="description generator">
+      <div class="icon">📝</div>
+      <h3>Description Generator</h3>
+      <p>Create professional descriptions for your content.</p>
+      <button onclick="openGenerator('description')">Open Tool</button>
+    </div>
+
+  </section>
+
+  <section id="generator" class="generator">
+    <h2 id="generatorTitle">AI Generator</h2>
+
+    <textarea id="userInput"
+      placeholder="Enter your topic here..."></textarea>
+
+    <button class="generate" onclick="generateContent()">
+      ✨ Generate
+    </button>
+
+    <div id="output" class="output">
+      Your result will appear here...
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  © 2026 AI Creator Toolkit • Built for creators 🚀
+</footer>
+
+<script>
+
+let currentTool = "title";
+
+function openGenerator(tool){
+  currentTool = tool;
+
+  const box = document.getElementById("generator");
+  const title = document.getElementById("generatorTitle");
+
+  const names = {
+    title:"🎬 YouTube Title Generator",
+    script:"✍️ YouTube Script Generator",
+    caption:"📱 Instagram Caption Generator",
+    ideas:"💡 Content Ideas Generator",
+    thumbnail:"🖼️ Thumbnail Prompt Generator",
+    description:"📝 Description Generator"
+  };
+
+  title.innerText = names[tool];
+  box.style.display = "block";
+  box.scrollIntoView({behavior:"smooth"});
+}
+
+function generateContent(){
+
+  const input =
+    document.getElementById("userInput").value.trim();
+
+  const output =
+    document.getElementById("output");
+
+  if(!input){
+    output.innerText = "Please enter a topic first.";
+    return;
+  }
+
+  let result = "";
+
+  if(currentTool === "title"){
+    result =
+`🔥 ${input}: The Truth Nobody Tells You
+
+🚀 ${input} Explained in 5 Minutes
+
+This Changes Everything About ${input}
+
+${input} — 7 Things You Need To Know
+
+I Tried ${input}... Here's What Happened`;
+  }
+
+  else if(currentTool === "script"){
+    result =
+`HOOK:
+Have you ever wondered about ${input}?
+
+INTRO:
+Today we're going to break down ${input}
+in a simple and interesting way.
+
+SECTION 1:
+Explain the problem and why it matters.
+
+SECTION 2:
+Give 3 important facts or insights about ${input}.
+
+SECTION 3:
+Show a practical example.
+
+CONCLUSION:
+Now you know the most important things about ${input}.
+
+CTA:
+Subscribe for more useful creator content!`;
+  }
+
+  else if(currentTool === "caption"){
+    result =
+`🚀 ${input}
+
+Here's something you should know...
+
+The right strategy can completely change your results.
+
+Save this post 📌
+Share it with a creator 🔥
+
+#contentcreator #creator #ai #digitalcreator #growth`;
+  }
+
+  else if(currentTool === "ideas"){
+    result =
+`10 Content Ideas About ${input}:
+
+1. Beginner's Guide to ${input}
+2. 7 Mistakes People Make With ${input}
+3. ${input} Explained Simply
+4. I Tried ${input} for 30 Days
+5. ${input}: Myths vs Reality
+6. How to Start ${input}
+7. 10 Facts About ${input}
+8. The Future of ${input}
+9. Best Tools for ${input}
+10. How I Would Master ${input} From Zero`;
+  }
+
+  else if(currentTool === "thumbnail"){
+    result =
+`YouTube thumbnail prompt:
+
+Create a high-impact YouTube thumbnail about "${input}".
+Modern cinematic composition, dramatic lighting,
+bold visual subject, strong facial expression,
+high contrast, clean background, professional
+YouTube thumbnail style, ultra detailed, 16:9,
+no watermark, minimal text.`;
+  }
+
+  else if(currentTool === "description"){
+    result =
+`Welcome to this video about ${input}! 🚀
+
+In this video, we'll explore the most important
+ideas, strategies and insights related to ${input}.
+
+If you found this video useful:
+👍 Like
+🔔 Subscribe
+💬 Comment your thoughts
+
+#AI #Creator #ContentCreation`;
+  }
+
+  output.innerText = result;
+}
+
+document.getElementById("searchInput")
+.addEventListener("input", function(){
+
+  const value = this.value.toLowerCase();
+
+  document.querySelectorAll(".card").forEach(card => {
+
+    const name =
+      card.getAttribute("data-name").toLowerCase();
+
+    card.style.display =
+      name.includes(value) ? "block" : "none";
+  });
+});
+
+function filterTools(category){
+
+  document.querySelectorAll(".card").forEach(card => {
+
+    if(category === "all"){
+      card.style.display = "block";
+    }else{
+      card.style.display =
+        card.dataset.category === category
+        ? "block"
+        : "none";
+    }
+  });
+}
+
+</script>
+
+</body>
+  </html>
